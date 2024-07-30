@@ -1,10 +1,9 @@
 name: Build and Push Docker Image
 
 run-name: Run by @${{ github.actor }} on ${{ github.event_name }} to ${{ github.ref_name }}
+
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -24,16 +23,12 @@ jobs:
       uses: docker/login-action@v3.3.0
       with:
         registry: ghcr.io
-        username: endrence3
+        username: ${{ github.repository_owner }}
         password: ${{ secrets.GH_PAT }}
 
     - name: Build and push Docker image
-      uses: docker/build-push-action@v5.3.0
+      uses: docker/build-push-action@v6.5.0
       with:
         context: .
         push: true
         tags: ghcr.io/endrence3/openedai-whisper-nvdia:latest
-      uses: docker/build-push-action@v5.3.0
-      with:
-        context: .
-        push: true
