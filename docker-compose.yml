@@ -1,9 +1,6 @@
-version: "3.3"
 services:
   server:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/endrence3/openedai-whisper-nvdia:latest
     stdin_open: true
     tty: true
     environment:

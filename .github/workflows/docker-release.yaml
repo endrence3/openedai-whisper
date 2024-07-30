@@ -1,0 +1,39 @@
+name: Build and Push Docker Image
+
+run-name: Run by @${{ github.actor }} on ${{ github.event_name }} to ${{ github.ref_name }}
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3.6.1
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3.3.0
+      with:
+        registry: ghcr.io
+        username: endrence3
+        password: ${{ secrets.GH_PAT }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5.3.0
+      with:
+        context: .
+        push: true
+        tags: ghcr.io/endrence3/openedai-whisper-nvdia:latest
+      uses: docker/build-push-action@v5.3.0
+      with:
+        context: .
+        push: true
